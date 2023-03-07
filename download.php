@@ -1,4 +1,10 @@
+
 <?php
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
+
 if(isset($_POST['submit'])){
 	$url = $_POST['url'];
 	$quality = $_POST['quality'];
