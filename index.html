@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Descarcare fisier audio</title>
+	<title>Descarcă muzică</title>
 </head>
 <body>
-    <h1>Descarcare fisier audio</h1>
-    <?php
-    if(isset($_GET['file'])) {
-        // specificați locația și numele fișierului audio
-        $file = $_GET['file'];
-
-        // setați tipul de conținut al fișierului audio
-        header('Content-type: audio/mpeg');
-
-        // setați sugestia de nume de fișier pentru fișierul audio
-        header('Content-Disposition: attachment; filename="'.basename($file).'"');
-
-        // descărcați fișierul audio de pe server
-        readfile($file);
-    }
-    ?>
-    <p>Pentru a descărca fișierul audio, utilizați următorul link:</p>
-    <a href="?file=http://exemplu.com/fisier-audio.mp3">Descarca fisierul audio</a>
+	<h1>Descarcă muzică</h1>
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+		<label for="link">Introduceți linkul de descărcare:</label>
+		<input type="text" id="link" name="link">
+		<input type="submit" value="Descarcă">
+	</form>
+	<?php
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$link = $_POST["link"];
+		$filename = "music.mp3"; // numele fișierului de descărcat
+		if (filter_var($link, FILTER_VALIDATE_URL)) {
+			header("Content-Type: application/force-download");
+			header("Content-Disposition: attachment; filename=".$filename);
+			readfile($link);
+			exit;
+		} else {
+			echo "<p>Linkul introdus este invalid. Vă rugăm să introduceți un link valid.</p>";
+		}
+	}
+	?>
 </body>
 </html>
