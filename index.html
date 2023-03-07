@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Descărcați fișiere audio</title>
+    <title>Descarcare fisier audio</title>
 </head>
 <body>
-	<h1>Descărcați fișiere audio</h1>
-	<form action="download.php" method="post">
-		<label for="url">Introduceți URL-ul fișierului audio:</label>
-		<input type="text" id="url" name="url"><br><br>
-		<input type="submit" value="Descărcați">
-	</form>
+    <h1>Descarcare fisier audio</h1>
+    <?php
+    if(isset($_GET['file'])) {
+        // specificați locația și numele fișierului audio
+        $file = $_GET['file'];
+
+        // setați tipul de conținut al fișierului audio
+        header('Content-type: audio/mpeg');
+
+        // setați sugestia de nume de fișier pentru fișierul audio
+        header('Content-Disposition: attachment; filename="'.basename($file).'"');
+
+        // descărcați fișierul audio de pe server
+        readfile($file);
+    }
+    ?>
+    <p>Pentru a descărca fișierul audio, utilizați următorul link:</p>
+    <a href="?file=http://exemplu.com/fisier-audio.mp3">Descarca fisierul audio</a>
 </body>
 </html>
